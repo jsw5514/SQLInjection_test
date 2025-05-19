@@ -46,7 +46,7 @@ public class UserService {
                 users = userRepository.getUsersByIdAndPassword(id, password);
                 break;
             case LOGIN_MODE_PARAM_BINDING:
-                //TODO parameter binding
+                userRepository.getUsersByIdAndPasswordBinding(id, password);
             case LOGIN_MODE_JPA:
                 //TODO use jpa
                 break; 
