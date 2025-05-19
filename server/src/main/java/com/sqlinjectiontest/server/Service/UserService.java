@@ -15,10 +15,15 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
-    public boolean login(String username, String password) {
-        List<UsersEntity> users = userRepository.getUsersByIdAndPassword(username, password);
-        if (users.size() <=0 ) {
+
+    /** 네이티브 sql 쿼리를 이용해 로그인하는 함수(sql 삽입에 취약)
+     * @param id id
+     * @param password 비밀번호
+     * @return 로그인 성공여부
+     */
+    public boolean loginNative(String id, String password) {
+        List<UsersEntity> users = userRepository.getUsersByIdAndPassword(id, password);
+        if (users.size() == 0) {
             return false;
         }
         else return true;
