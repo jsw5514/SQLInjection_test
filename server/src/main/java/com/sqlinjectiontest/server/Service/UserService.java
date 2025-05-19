@@ -47,9 +47,19 @@ public class UserService {
                 break;
             case LOGIN_MODE_PARAM_BINDING:
                 userRepository.getUsersByIdAndPasswordBinding(id, password);
+                break;
             case LOGIN_MODE_JPA:
-                //TODO use jpa
-                break; 
+                UsersEntity user = userRepository.findById(id).orElse(null);
+                if(user == null) {
+                    log.error("invalid user id " + id);
+                    return false;
+                } else if (!password.equals(user.getPw())) {
+                    log.error("invalid password " + password);
+                    return false;
+                }
+                else {
+                    return true;
+                }
             default:
                 log.error("Invalid login mode");
                 throw new IllegalStateException("Invalid login mode");
