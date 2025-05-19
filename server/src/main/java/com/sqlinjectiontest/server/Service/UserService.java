@@ -39,8 +39,9 @@ public class UserService {
         List<UsersEntity> users = null;
         switch (loginMode) {
             case LOGIN_MODE_FILTERED:
-                //TODO filtering
-                break;
+                if(isSuspiciousCharacterPresent(id, password)) {
+                    return false;
+                }
             case LOGIN_MODE_NATIVE:
                 users = userRepository.getUsersByIdAndPassword(id, password);
                 break;
@@ -60,5 +61,21 @@ public class UserService {
         else {
             return true;
         }
+    }
+
+    /** 문자열 필터링 함수
+     * 필터링 대상 문자(열): ' " \ ; --
+     * @param inputs 검사할 문자열
+     * @return 문제있는 문자(열) 존재여부
+     */
+    public boolean isSuspiciousCharacterPresent(String... inputs) {
+        String regex = ".*[\"'\\\\;--].*";
+        for (String input : inputs) {
+            if (input.matches(regex)) {
+                log.error("suspicious character detected");
+                return true;
+            }
+        }
+        return false;
     }
 }
