@@ -81,7 +81,7 @@ public class UserService {
      * @return 문제있는 문자(열) 존재여부
      */
     public boolean isSuspiciousCharacterPresent(String... inputs) {
-        String regex = ".*[\"'\\\\;--].*";
+        String regex = ".*([\"'\\\\;]|--).*";
         for (String input : inputs) {
             if (input.matches(regex)) {
                 log.error("suspicious character detected");
