@@ -13,10 +13,10 @@ import java.util.List;
 public class UserService {
     Logger log = LoggerFactory.getLogger(UserService.class); 
     //로그인 모드 지정 상수
-    public final int LOGIN_MODE_NATIVE = 0;
-    public final int LOGIN_MODE_FILTERED = 1;
-    public final int LOGIN_MODE_PARAM_BINDING = 2;
-    public final int LOGIN_MODE_JPA = 3;
+    public static final int LOGIN_MODE_NATIVE = 0;
+    public static final int LOGIN_MODE_FILTERED = 1;
+    public static final int LOGIN_MODE_PARAM_BINDING = 2;
+    public static final int LOGIN_MODE_JPA = 3;
     
     private final UserRepository userRepository;
     
