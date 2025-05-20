@@ -19,7 +19,7 @@ public class ServerApplicationTests {
 		doNomalLogin("admin","adminpass");
 		
 		//test SQL injection
-		doSQLInjection("admin\"--","asdf");
+		doSQLInjection("admin';-- ","asdf");
 	}
 
 	void doNomalLogin(String id, String password) {
