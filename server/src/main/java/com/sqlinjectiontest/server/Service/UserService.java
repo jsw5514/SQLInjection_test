@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,7 +47,8 @@ public class UserService {
                 users = userRepository.getUsersByIdAndPassword(id, password);
                 break;
             case LOGIN_MODE_PARAM_BINDING:
-                userRepository.getUsersByIdAndPasswordBinding(id, password);
+                List<Object[]> userObjects = userRepository.getUsersByIdAndPasswordBinding(id, password);
+                users = UsersEntity.fromListOfObjectArray(userObjects);
                 break;
             case LOGIN_MODE_JPA:
                 UsersEntity user = userRepository.findById(id).orElse(null);

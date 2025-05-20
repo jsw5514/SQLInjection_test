@@ -19,7 +19,8 @@ public class NativeSQLRepositoryImpl implements NativeSQLRepository {
     @Override
     public List<UsersEntity> getUsersByIdAndPassword(String id, String password) {
         String sql = "select * from users where id = '" + id + "' and pw = '" + password + "'";
-        List<UsersEntity> result = entityManager.createNativeQuery(sql).getResultList();
+        List<Object[]> resultObjects = entityManager.createNativeQuery(sql).getResultList();
+        List<UsersEntity> result = UsersEntity.fromListOfObjectArray(resultObjects);
         return result;
     }
 }
