@@ -1,0 +1,6 @@
+.idea
+server/*.md
+server/.gradle
+server/.idea
+server/build
+server/src/main/resources/application.properties
