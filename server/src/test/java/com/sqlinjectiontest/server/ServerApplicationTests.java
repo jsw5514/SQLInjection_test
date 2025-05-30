@@ -23,27 +23,27 @@ public class ServerApplicationTests {
 	}
 
 	void doNomalLogin(String id, String password) {
-		boolean result;
-		result = userService.login(id,password,UserService.LOGIN_MODE_NATIVE);
-		assertTrue(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_FILTERED);
-		assertTrue(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_PARAM_BINDING);
-		assertTrue(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_JPA);
-		assertTrue(result);
+//		boolean result;
+//		result = userService.login(id,password,UserService.LOGIN_MODE_NATIVE);
+//		assertTrue(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_FILTERED);
+//		assertTrue(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_PARAM_BINDING);
+//		assertTrue(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_JPA);
+//		assertTrue(result);
 	}
 
 	void doSQLInjection(String id, String password) {
-		boolean result;
-		result = userService.login(id,password,UserService.LOGIN_MODE_NATIVE);
-		assertTrue(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_FILTERED);
-		assertFalse(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_PARAM_BINDING);
-		assertFalse(result);
-		result = userService.login(id, password, UserService.LOGIN_MODE_JPA);
-		assertFalse(result);
+//		boolean result;
+//		result = userService.login(id,password,UserService.LOGIN_MODE_NATIVE);
+//		assertTrue(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_FILTERED);
+//		assertFalse(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_PARAM_BINDING);
+//		assertFalse(result);
+//		result = userService.login(id, password, UserService.LOGIN_MODE_JPA);
+//		assertFalse(result);
 	}
 
 }

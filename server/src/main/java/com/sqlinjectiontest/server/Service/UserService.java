@@ -1,5 +1,6 @@
 package com.sqlinjectiontest.server.Service;
 
+import com.sqlinjectiontest.server.DTO.User;
 import com.sqlinjectiontest.server.Entity.UsersEntity;
 import com.sqlinjectiontest.server.Repository.UserRepository;
 import org.slf4j.Logger;
@@ -36,12 +37,12 @@ public class UserService {
      *                  LOGIN_MODE_JPA: JPA 이용
      * @return 로그인 성공여부
      */
-    public boolean login(String id, String password, int loginMode) {
+    public User login(String id, String password, int loginMode) {
         List<UsersEntity> users = null;
         switch (loginMode) {
             case LOGIN_MODE_FILTERED:
                 if(isSuspiciousCharacterPresent(id, password)) {
-                    return false;
+                    return null;
                 }
             case LOGIN_MODE_NATIVE:
                 users = userRepository.getUsersByIdAndPassword(id, password);
@@ -54,24 +55,23 @@ public class UserService {
                 UsersEntity user = userRepository.findById(id).orElse(null);
                 if(user == null) {
                     log.error("invalid user id " + id);
-                    return false;
+                    return null;
                 } else if (!password.equals(user.getPw())) {
                     log.error("invalid password " + password);
-                    return false;
+                    return null;
                 }
                 else {
-                    return true;
+                    return User.fromEntity(user);
                 }
             default:
                 log.error("Invalid login mode");
                 throw new IllegalStateException("Invalid login mode");
         }
-        
         if (users == null || users.isEmpty()) {
-            return false;
+            return null;
         }
         else {
-            return true;
+            return User.fromEntity(users.get(0));
         }
     }
 
