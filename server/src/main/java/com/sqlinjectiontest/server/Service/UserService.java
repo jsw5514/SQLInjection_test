@@ -40,6 +40,7 @@ public class UserService {
         switch (loginMode) {
             case LOGIN_MODE_FILTERED:
                 if(isSuspiciousCharacterPresent(id, password)) {
+                    log.error("suspicious character found in input");
                     return false;
                 }
             case LOGIN_MODE_NATIVE:
@@ -67,6 +68,7 @@ public class UserService {
         }
         
         if (users == null || users.isEmpty()) {
+            log.error("invalid user id or password id: " + id + " password: " + password);
             return false;
         }
         else {

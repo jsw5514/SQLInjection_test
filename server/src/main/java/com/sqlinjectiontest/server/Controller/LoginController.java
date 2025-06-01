@@ -21,10 +21,10 @@ public class LoginController {
     public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
         boolean loginSuccessed = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_NATIVE);
         if(loginSuccessed) {
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok("로그인 성공");
         }
         else {
-            return ResponseEntity.ok("Login failed");
+            return ResponseEntity.ok("로그인 실패");
         }
     }
 }
