@@ -21,7 +21,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String,String>> login(@RequestBody Map<String, String> request) {
-        String loginUserName = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_FILTERED);
+        String loginUserName = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_NATIVE);
 
         //응답
         Map<String, String> response = new HashMap<>();
