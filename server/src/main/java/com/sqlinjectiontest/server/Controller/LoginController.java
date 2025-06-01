@@ -1,6 +1,7 @@
 package com.sqlinjectiontest.server.Controller;
 
 import com.sqlinjectiontest.server.Service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,12 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
-        boolean loginSuccessed = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_NATIVE);
-        if(loginSuccessed) {
-            return ResponseEntity.ok("로그인 성공");
+        String loginUserName = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_NATIVE);
+        if(loginUserName != null) {
+            return ResponseEntity.ok().header("name", loginUserName).body("로그인 성공");
         }
         else {
-            return ResponseEntity.ok("로그인 실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
 }

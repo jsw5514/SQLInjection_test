@@ -35,13 +35,13 @@ public class UserService {
      *                  LOGIN_MODE_JPA: JPA 이용
      * @return 로그인 성공여부
      */
-    public boolean login(String id, String password, int loginMode) {
+    public String login(String id, String password, int loginMode) {
         List<UsersEntity> users = null;
         switch (loginMode) {
             case LOGIN_MODE_FILTERED:
                 if(isSuspiciousCharacterPresent(id, password)) {
                     log.error("suspicious character found in input");
-                    return false;
+                    return null;
                 }
             case LOGIN_MODE_NATIVE:
                 users = userRepository.getUsersByIdAndPassword(id, password);
@@ -54,13 +54,13 @@ public class UserService {
                 UsersEntity user = userRepository.findById(id).orElse(null);
                 if(user == null) {
                     log.error("invalid user id " + id);
-                    return false;
+                    return null;
                 } else if (!password.equals(user.getPw())) {
                     log.error("invalid password " + password);
-                    return false;
+                    return null;
                 }
                 else {
-                    return true;
+                    return user.getId();
                 }
             default:
                 log.error("Invalid login mode");
@@ -69,10 +69,10 @@ public class UserService {
         
         if (users == null || users.isEmpty()) {
             log.error("invalid user id or password id: " + id + " password: " + password);
-            return false;
+            return null;
         }
         else {
-            return true;
+            return users.get(0).getId();
         }
     }
 
