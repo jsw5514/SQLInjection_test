@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -19,13 +20,19 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
-        String loginUserName = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_NATIVE);
+    public ResponseEntity<Map<String,String>> login(@RequestBody Map<String, String> request) {
+        String loginUserName = userService.login(request.get("id"), request.get("pw"), UserService.LOGIN_MODE_FILTERED);
+
+        //응답
+        Map<String, String> response = new HashMap<>();
         if(loginUserName != null) {
-            return ResponseEntity.ok().header("name", loginUserName).body("로그인 성공");
+            response.put("message","로그인 성공");
+            response.put("name", loginUserName);
+            return ResponseEntity.ok(response);
         }
         else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+            response.put("message","로그인 실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 }
