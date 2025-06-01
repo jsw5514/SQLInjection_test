@@ -31,7 +31,7 @@
       border-radius: 5px;
     }
     button:hover {
-        background-color: #347736;
+      background-color: #347736;
     }
     .result {
       margin-top: 20px;
@@ -41,63 +41,44 @@
 </head>
 
 <body>
-  <div class="container">
-    <h2>로그인</h2>
-    <form id="loginForm">
-      <input type="text" id="id" placeholder="ID 입력" required />
-      <input type="password" id="pw" placeholder="비밀번호 입력" required />
-      <button type="submit">로그인</button>
-    </form>
-    <div class="result" id="result"></div>
-  </div>
+<div class="container">
+  <h2>로그인</h2>
+  <form id="loginForm">
+    <input type="text" id="id" placeholder="ID 입력" required />
+    <input type="password" id="pw" placeholder="비밀번호 입력" required />
+    <button type="submit">로그인</button>
+  </form>
+  <div class="result" id="result"></div>
+</div>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", async function(e) {
-        e.preventDefault();
-        const id = document.getElementById("id").value;
-        const pw = document.getElementById("pw").value;
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const id = document.getElementById("id").value;
+    const pw = document.getElementById("pw").value;
 
-        try {
-        const response = await fetch("http://localhost:8080/login", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ id, pw })
-        });
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id, pw })
+      });
 
-        const data = await response.text();
-        const result = document.getElementById("result");
+      const result = document.getElementById("result");
 
-        // 공격 시나리오 1 (인증 우회)
-        if (id.includes("' OR 1=1") || id.includes("--")) {
-            if (data.includes("성공")) {
-            result.innerText = "✅ 인증 우회 성공";
-            } else {
-            result.innerText = "❌ 인증 우회 실패";
-            }
+      if (response.ok) {
+        const user = await response.json();
+        result.innerText = user.name + "님 반갑습니다!";
+      } else {
+        result.innerText = "❌ 로그인 실패";
+      }
 
-        // 공격 시나리오 2 (DB 파괴)
-        } else if (id.toLowerCase().includes("drop")) {
-            if (data.toLowerCase().includes("error") || data.toLowerCase().includes("exception")) {
-            result.innerText = "💥 DB 파괴 시도 감지됨";
-            } else {
-            result.innerText = "❌ DB 파괴 실패 또는 차단됨";
-            }
-        
-        // 제대로 된 id, pw 입력시
-        } else {
-            if (data.includes("성공")) {
-            result.innerText = "✅ 정상 로그인 성공";
-            } else {
-            result.innerText = "❌ 로그인 실패";
-            }
-        }
-
-        } catch (error) {
-        document.getElementById("result").innerText = "⚠️ 서버 오류 발생: " + error;
-        }
-    });
-    </script>
+    } catch (error) {
+      document.getElementById("result").innerText = "⚠️ 서버 오류 발생: " + error;
+    }
+  });
+</script>
 </body>
 </html>
