@@ -5,3 +5,4 @@ CREATE TABLE users (
 	user_role VARCHAR(10)
 );
 INSERT INTO users VALUES("admin","adminpass","admin","admin"),("user1","user1pass","user1","user"),("user2","user2pass","user2","user");
+SELECT * FROM users;
